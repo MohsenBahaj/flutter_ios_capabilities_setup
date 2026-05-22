@@ -72,8 +72,17 @@ The Bundle ID in `GoogleService-Info.plist` must match your Flutter project's Bu
 Change your project's Bundle ID easily:
 
 ```bash
-dart pub global activate change_app_package_name
+# Step 1 — Add the package
+flutter pub add -d change_app_package_name
+
+# Step 2 — Change the bundle ID
 dart run change_app_package_name:main com.yourcompany.yourapp
+```
+
+To change iOS only:
+
+```bash
+dart run change_app_package_name:main com.yourcompany.yourapp --ios
 ```
 
 See: https://pub.dev/packages/change_app_package_name
