@@ -101,6 +101,6 @@ void main() {
   print('');
   print('🐛 Found a bug? Open an issue:');
   print(
-      '   https://github.com/MohsenBahaj/flutter_ios_capabilities_setup /issues');
+      '   https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues');
   print(divider);
 }

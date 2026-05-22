@@ -26,3 +26,7 @@
 
 - Enhanced example with full setup walkthrough
 - Added CI/CD examples for GitHub Actions and Codemagic
+
+## 0.1.4
+
+- Fixed typo: removed extra space in issues URL displayed in terminal output
