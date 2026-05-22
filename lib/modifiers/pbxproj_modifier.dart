@@ -2,14 +2,19 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 import '../utils/uuid_generator.dart';
 
+/// Modifies `ios/Runner.xcodeproj/project.pbxproj` to register files and
+/// update build settings for iOS capabilities.
 class PbxprojModifier {
   final String projectRoot;
 
+  /// Creates an instance targeting the Flutter project at [projectRoot].
   PbxprojModifier(this.projectRoot);
 
   String get _pbxprojPath =>
       p.join(projectRoot, 'ios', 'Runner.xcodeproj', 'project.pbxproj');
 
+  /// Registers `GoogleService-Info.plist` and `Runner.entitlements` in the
+  /// Xcode project and sets `CODE_SIGN_ENTITLEMENTS` on all build configurations.
   String addFirebase() {
     try {
       final file = File(_pbxprojPath);
@@ -96,8 +101,8 @@ class PbxprojModifier {
     }
   }
 
-  // Raises IPHONEOS_DEPLOYMENT_TARGET to 15.0 wherever it is currently below
-  // that value. Affects all 3 build configurations (Debug, Release, Profile).
+  /// Raises `IPHONEOS_DEPLOYMENT_TARGET` to 15.0 in all build configurations
+  /// where it is currently set below that value.
   String updateDeploymentTarget() {
     try {
       final file = File(_pbxprojPath);

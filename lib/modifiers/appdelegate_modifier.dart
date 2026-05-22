@@ -1,14 +1,18 @@
 import 'dart:io';
 import 'package:path/path.dart' as p;
 
+/// Modifies `ios/Runner/AppDelegate.swift` to add Firebase and Google Maps setup.
 class AppDelegateModifier {
   final String projectRoot;
 
+  /// Creates an instance targeting the Flutter project at [projectRoot].
   AppDelegateModifier(this.projectRoot);
 
   String get _delegatePath =>
       p.join(projectRoot, 'ios', 'Runner', 'AppDelegate.swift');
 
+  /// Adds Firebase imports, `MessagingDelegate` conformance, setup code, and
+  /// push-notification delegate methods to `AppDelegate.swift`.
   List<String> addFirebase() {
     final results = <String>[];
     try {
@@ -104,6 +108,8 @@ class AppDelegateModifier {
     return results;
   }
 
+  /// Adds the `GoogleMaps` import and `GMSServices.provideAPIKey` call with
+  /// [apiKey] to `AppDelegate.swift`.
   List<String> addGoogleMaps(String apiKey) {
     final results = <String>[];
     try {

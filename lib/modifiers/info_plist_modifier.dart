@@ -1,14 +1,17 @@
 import 'dart:io';
 import 'package:path/path.dart' as p;
 
+/// Modifies `ios/Runner/Info.plist` to add capability-related entries.
 class InfoPlistModifier {
   final String projectRoot;
 
+  /// Creates an instance targeting the Flutter project at [projectRoot].
   InfoPlistModifier(this.projectRoot);
 
   String get _plistPath =>
       p.join(projectRoot, 'ios', 'Runner', 'Info.plist');
 
+  /// Adds or updates `UIBackgroundModes` in `Info.plist` with the given [modes].
   List<String> addBackgroundModes(List<String> modes) {
     final results = <String>[];
     try {
@@ -82,6 +85,7 @@ class InfoPlistModifier {
     return results;
   }
 
+  /// Adds `NSLocationWhenInUseUsageDescription` to `Info.plist`.
   String addNSLocation() {
     try {
       final file = File(_plistPath);

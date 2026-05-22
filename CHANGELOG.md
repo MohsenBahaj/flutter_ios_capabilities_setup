@@ -11,3 +11,13 @@
 ## 0.1.1
 
 ## - Fixed README: corrected change_app_package_name usage instructions
+
+# عدّل CHANGELOG.md
+
+## 0.1.2
+
+## - Shortened package description
+
+## - Added dartdoc comments to public API
+
+## - Added example documentation

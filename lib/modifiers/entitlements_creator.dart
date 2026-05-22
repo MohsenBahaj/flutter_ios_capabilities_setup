@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:path/path.dart' as p;
 
+/// Creates `ios/Runner/Runner.entitlements` with the APS push environment key.
 class EntitlementsCreator {
   final String projectRoot;
 
+  /// Creates an instance targeting the Flutter project at [projectRoot].
   EntitlementsCreator(this.projectRoot);
 
   String get _entitlementsPath =>
@@ -19,6 +21,8 @@ class EntitlementsCreator {
 </plist>
 ''';
 
+  /// Creates `Runner.entitlements` with `aps-environment` set to `development`.
+  /// Does nothing if the file already exists.
   String create() {
     final file = File(_entitlementsPath);
     if (file.existsSync()) {
