@@ -21,3 +21,8 @@
 ## - Added dartdoc comments to public API
 
 ## - Added example documentation
+
+## 0.1.3
+
+- Enhanced example with full setup walkthrough
+- Added CI/CD examples for GitHub Actions and Codemagic
