@@ -1,0 +1,19 @@
+name: flutter_ios_capabilities_setup
+description: Configure iOS capabilities for Flutter projects without Xcode. Works from Windows, macOS, and Linux. Firebase, Push Notifications, Background Modes, and Google Maps — configured in seconds.
+version: 0.1.0
+homepage: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup
+repository: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup
+issue_tracker: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  args: ^2.4.0
+  interact: ^2.2.0
+  xml: ^6.3.0
+  uuid: ^4.3.3
+  path: ^1.9.0
+
+executables:
+  flutter_ios_capabilities_setup: flutter_ios_capabilities_setup
