@@ -60,6 +60,17 @@ void main() {
       exit(1);
     }
 
+    final bundleWarning = FirebaseValidator(projectRoot).checkBundleIdMatch(projectRoot);
+    if (bundleWarning != null) {
+      stdout.write(bundleWarning);
+      final input = stdin.readLineSync()?.trim().toLowerCase();
+      if (input != 'y') {
+        print('\nAborted. Fix the Bundle ID mismatch and run again.');
+        exit(0);
+      }
+      print('');
+    }
+
     results.add(EntitlementsCreator(projectRoot).create());
     results.addAll(InfoPlistModifier(projectRoot)
         .addBackgroundModes(['fetch', 'remote-notification']));

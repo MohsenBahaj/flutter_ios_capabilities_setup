@@ -29,4 +29,59 @@ class FirebaseValidator {
       return false;
     }
   }
+
+  /// Returns a warning message if the Bundle ID in `GoogleService-Info.plist`
+  /// does not match `PRODUCT_BUNDLE_IDENTIFIER` in `project.pbxproj`, or
+  /// `null` if they match or either value cannot be read.
+  String? checkBundleIdMatch(String projectRoot) {
+    try {
+      // 1. Read BUNDLE_ID from plist.
+      final plistContent = File(_googleServicePath).readAsStringSync();
+      final doc = XmlDocument.parse(plistContent);
+      String? plistBundleId;
+      for (final key in doc.findAllElements('key')) {
+        if (key.innerText == 'BUNDLE_ID') {
+          final next = key.nextElementSibling;
+          if (next != null) plistBundleId = next.innerText;
+          break;
+        }
+      }
+      if (plistBundleId == null) return null;
+
+      // 2. Read PRODUCT_BUNDLE_IDENTIFIER from pbxproj.
+      final pbxprojPath =
+          p.join(projectRoot, 'ios', 'Runner.xcodeproj', 'project.pbxproj');
+      final pbxContent = File(pbxprojPath).readAsStringSync();
+      final pattern = RegExp(r'PRODUCT_BUNDLE_IDENTIFIER = ([^;]+);');
+      String? pbxBundleId;
+      for (final match in pattern.allMatches(pbxContent)) {
+        final value = match.group(1)!.trim();
+        if (!value.contains('RunnerTests')) {
+          pbxBundleId = value;
+          break;
+        }
+      }
+      if (pbxBundleId == null) return null;
+
+      // 3. Compare.
+      if (plistBundleId == pbxBundleId) return null;
+
+      return '⚠️  Bundle ID mismatch detected:\n'
+          '    GoogleService-Info.plist : $plistBundleId\n'
+          '    project.pbxproj          : $pbxBundleId\n'
+          '\n'
+          '    Your app will likely crash at launch — Firebase cannot initialize\n'
+          '    with a mismatched Bundle ID.\n'
+          '\n'
+          '    To fix, run:\n'
+          '      flutter pub add -d change_app_package_name\n'
+          '      dart run change_app_package_name:main $plistBundleId --ios\n'
+          '\n'
+          '    See: https://pub.dev/packages/change_app_package_name\n'
+          '\n'
+          '    Continue anyway? (y/N): ';
+    } catch (_) {
+      return null;
+    }
+  }
 }
