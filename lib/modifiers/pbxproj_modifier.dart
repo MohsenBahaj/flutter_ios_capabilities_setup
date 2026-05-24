@@ -13,6 +13,35 @@ class PbxprojModifier {
   String get _pbxprojPath =>
       p.join(projectRoot, 'ios', 'Runner.xcodeproj', 'project.pbxproj');
 
+  // ── Anchor helpers ──────────────────────────────────────────────
+  static const _exactGroupAnchor =
+      '\t\t\t\t97C146FA1CF9000F007C117D /* Main.storyboard */,';
+  static const _exactResourcesAnchor =
+      '\t\t\t\t97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,';
+
+  static final _regexGroupAnchor = RegExp(
+    r'\t{4}[0-9A-F]{24} /\* Main\.storyboard \*/,',
+    multiLine: true,
+  );
+  static final _regexResourcesAnchor = RegExp(
+    r'\t{4}[0-9A-F]{24} /\* Assets\.xcassets in Resources \*/,',
+    multiLine: true,
+  );
+
+  String? _findGroupAnchor(String content) {
+    if (content.contains(_exactGroupAnchor)) return _exactGroupAnchor;
+    final match = _regexGroupAnchor.firstMatch(content);
+    if (match != null) return match.group(0);
+    return null;
+  }
+
+  String? _findResourcesAnchor(String content) {
+    if (content.contains(_exactResourcesAnchor)) return _exactResourcesAnchor;
+    final match = _regexResourcesAnchor.firstMatch(content);
+    if (match != null) return match.group(0);
+    return null;
+  }
+
   /// Registers `GoogleService-Info.plist` and `Runner.entitlements` in the
   /// Xcode project and sets `CODE_SIGN_ENTITLEMENTS` on all build configurations.
   String addFirebase() {
@@ -24,21 +53,22 @@ class PbxprojModifier {
         return '⚠️  project.pbxproj — GoogleService-Info.plist already registered, skipped';
       }
 
-      // Verify all required anchors before touching the file.
-      const anchors = [
-        '/* Begin PBXBuildFile section */',
-        '/* Begin PBXFileReference section */',
-        // Tab-prefixed + comma-suffixed forms appear exactly once in their
-        // correct sections, preventing replaceFirst from hitting the wrong
-        // occurrence (e.g. a fileRef = ... line in PBXBuildFile).
-        '\t\t\t\t97C146FA1CF9000F007C117D /* Main.storyboard */,',
-        '\t\t\t\t97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,',
-      ];
-      for (final anchor in anchors) {
-        if (!content.contains(anchor)) {
-          return '❌ Could not modify project.pbxproj — unexpected file structure.\n'
-              'Please check your project manually or open an issue on GitHub.';
-        }
+      if (!content.contains('/* Begin PBXBuildFile section */') ||
+          !content.contains('/* Begin PBXFileReference section */')) {
+        return '❌ Could not modify project.pbxproj — unexpected file structure.\n'
+            'Please open an issue: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues';
+      }
+
+      final groupAnchor = _findGroupAnchor(content);
+      if (groupAnchor == null) {
+        return '❌ Could not find Main.storyboard anchor in project.pbxproj.\n'
+            'Please open an issue: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues';
+      }
+
+      final resourcesAnchor = _findResourcesAnchor(content);
+      if (resourcesAnchor == null) {
+        return '❌ Could not find Assets.xcassets anchor in project.pbxproj.\n'
+            'Please open an issue: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues';
       }
 
       final uuidBuildFile = generatePbxUuid();
@@ -68,8 +98,6 @@ class PbxprojModifier {
       // 3. Add files to Runner PBXGroup children (before Main.storyboard).
       //    Anchor includes 4-tab prefix + trailing comma so replaceFirst hits
       //    the children-list line and not a fileRef = ... occurrence elsewhere.
-      const groupAnchor =
-          '\t\t\t\t97C146FA1CF9000F007C117D /* Main.storyboard */,';
       content = content.replaceFirst(
         groupAnchor,
         '\t\t\t\t$uuidFileRefEntitlements /* Runner.entitlements */,\n'
@@ -79,8 +107,6 @@ class PbxprojModifier {
 
       // 4. Add to PBXResourcesBuildPhase files list (before Assets.xcassets).
       //    Same reasoning: include tabs + comma for uniqueness.
-      const resourcesAnchor =
-          '\t\t\t\t97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,';
       content = content.replaceFirst(
         resourcesAnchor,
         '\t\t\t\t$uuidBuildFile /* GoogleService-Info.plist in Resources */,\n'
