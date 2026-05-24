@@ -123,7 +123,8 @@ class PbxprojModifier {
       file.writeAsStringSync(content);
       return '✅ Updated project.pbxproj — registered GoogleService-Info.plist';
     } catch (e) {
-      return '❌ Failed to modify project.pbxproj: $e';
+      return '❌ Failed to modify project.pbxproj: $e\n'
+          'Please open an issue: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues';
     }
   }
 
@@ -160,7 +161,8 @@ class PbxprojModifier {
       file.writeAsStringSync(content);
       return '✅ Updated project.pbxproj — iOS deployment target set to 15.0';
     } catch (e) {
-      return '❌ Failed to update deployment target: $e';
+      return '❌ Failed to update deployment target: $e\n'
+          'Please open an issue: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues';
     }
   }
 

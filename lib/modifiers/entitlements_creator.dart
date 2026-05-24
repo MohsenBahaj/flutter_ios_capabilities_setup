@@ -32,7 +32,8 @@ class EntitlementsCreator {
       file.writeAsStringSync(_content);
       return '✅ Created Runner.entitlements';
     } catch (e) {
-      return '❌ Failed to create Runner.entitlements: $e';
+      return '❌ Failed to create Runner.entitlements: $e\n'
+          'Please open an issue: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues';
     }
   }
 }

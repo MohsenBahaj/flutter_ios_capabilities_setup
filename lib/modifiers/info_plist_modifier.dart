@@ -80,7 +80,8 @@ class InfoPlistModifier {
         }
       }
     } catch (e) {
-      results.add('❌ Failed to update Info.plist: $e');
+      results.add('❌ Failed to update Info.plist: $e\n'
+          'Please open an issue: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues');
     }
     return results;
   }
@@ -107,7 +108,8 @@ class InfoPlistModifier {
       file.writeAsStringSync(updated);
       return '✅ Updated Info.plist — added NSLocationWhenInUseUsageDescription';
     } catch (e) {
-      return '❌ Failed to update Info.plist: $e';
+      return '❌ Failed to update Info.plist: $e\n'
+          'Please open an issue: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues';
     }
   }
 

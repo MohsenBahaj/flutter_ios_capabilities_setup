@@ -103,7 +103,8 @@ class AppDelegateModifier {
 
       if (modified) file.writeAsStringSync(content);
     } catch (e) {
-      results.add('❌ Failed to update AppDelegate.swift: $e');
+      results.add('❌ Failed to update AppDelegate.swift: $e\n'
+          'Please open an issue: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues');
     }
     return results;
   }
@@ -153,7 +154,8 @@ class AppDelegateModifier {
 
       if (modified) file.writeAsStringSync(content);
     } catch (e) {
-      results.add('❌ Failed to update AppDelegate.swift: $e');
+      results.add('❌ Failed to update AppDelegate.swift: $e\n'
+          'Please open an issue: https://github.com/MohsenBahaj/flutter_ios_capabilities_setup/issues');
     }
     return results;
   }
