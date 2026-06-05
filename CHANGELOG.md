@@ -36,3 +36,7 @@
 - feat: Bundle ID mismatch detection — warns before Firebase setup if GoogleService-Info.plist Bundle ID doesn't match project Bundle ID, with fix instructions
 - refactor: Regex fallback anchors for project.pbxproj — tool now works even if Flutter changes default UUIDs in future versions
 - fix: improved error messages across all modifiers with GitHub issues link for easier bug reporting
+
+## 0.2.1
+
+## - Relaxed xml dependency constraint to support v6 and v7
