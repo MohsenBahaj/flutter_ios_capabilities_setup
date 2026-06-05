@@ -10,17 +10,13 @@
 
 ## 0.1.1
 
-## - Fixed README: corrected change_app_package_name usage instructions
-
-# عدّل CHANGELOG.md
+- Fixed README: corrected change_app_package_name usage instructions
 
 ## 0.1.2
 
-## - Shortened package description
-
-## - Added dartdoc comments to public API
-
-## - Added example documentation
+- Shortened package description
+- Added dartdoc comments to public API
+- Added example documentation
 
 ## 0.1.3
 
@@ -39,4 +35,8 @@
 
 ## 0.2.1
 
-## - Relaxed xml dependency constraint to support v6 and v7
+- Relaxed xml dependency constraint to support v6 and v7
+
+## 0.2.2
+
+- Fixed CHANGELOG formatting
